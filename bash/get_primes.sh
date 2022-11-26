@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # bash settings:
-#set -e  # Fail on error
-#set -o  # Fail when any part of a pipeline fails
-#set -u  # Fail when an undefined variable is used
-#set -x  # Print commands before execution
+set errexit  # Fail on error
+set pipefail  # Fail when any part of a pipeline fails
+set nounset  # Fail when an undefined variable is used
+#set xtrace  # Print commands before execution
 
 # Global variables:
 
