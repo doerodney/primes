@@ -46,18 +46,24 @@ function is_odd() {
 
 function is_prime() {
   # Determine n is a prime number:
-  local n=${1:-0}
-  local limit=$(isqrt $n)
-  local denom=0
-  local remainder=0
-  local result=0
+  local denom
+  local limit
+  local n
+  local remainder
+  local result
+
+  n=${1:-0}
+  limit=$(isqrt "$n")
+  denom=0
+  remainder=0
+  result=0
 
   if test "$n" -eq 2 -o "$n" -eq 3 
   then
     remainder=1  # Faked result...
   else
     # Only odd numbers > 2 can be prime:
-    if test "$(is_odd $n)" -ne 0
+    if test "$(is_odd "$n")" -ne 0
     then
       for denom in $(seq 2 "$limit")
       do
@@ -89,7 +95,7 @@ function is_prime() {
 
 for x in $(seq 3 2 71)
 do
-  echo "$x is prime:  $(is_prime $x)"
+  echo "$x is prime:  $(is_prime "$x")"
 done
 
 
