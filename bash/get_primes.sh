@@ -1,12 +1,13 @@
 #!/bin/bash
 
+# Global variables:
+N=${1:-10}
+
 # bash settings:
 set errexit  # Fail on error
 set pipefail  # Fail when any part of a pipeline fails
 set nounset  # Fail when an undefined variable is used
 #set xtrace  # Print commands before execution
-
-# Global variables:
 
 
 function isqrt() {
@@ -92,10 +93,18 @@ function is_prime() {
 
 #-main-------------------------------------------------------------------------
 
+out=/tmp/primes.txt
+if test -d "out"
+then
+  rm "$out"
+fi
 
-for x in $(seq 3 2 71)
+for x in $(seq 1 "$N")
 do
-  echo "$x is prime:  $(is_prime "$x")"
-done
+  if test "$(is_prime "$x")" -ne 0
+  then
+    echo "$x"
+  fi
+done > "$out"
 
-
+awk '{sum=sum+$1} END {print "Sum: " sum}' "$out"
