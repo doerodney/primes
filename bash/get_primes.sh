@@ -99,12 +99,24 @@ then
   rm "$out"
 fi
 
-for x in $(seq 1 "$N")
+x=1
+count=0
+
+echo "Getting first $N prime numbers."
+start="$SECONDS"
+
+while [ "$count" -lt "$N" ]
 do
   if test "$(is_prime "$x")" -ne 0
   then
+    count=$(( count + 1 ))
     echo "$x"
   fi
+  x=$(( x + 2 ))
 done > "$out"
 
 awk '{sum=sum+$1} END {print "Sum: " sum}' "$out"
+
+finish="$SECONDS"
+duration=$(( finish - start ))
+echo "Duration: $duration [seconds] (in bash)"
