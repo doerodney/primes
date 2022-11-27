@@ -112,7 +112,7 @@ do
     count=$(( count + 1 ))
     echo "$x"
   fi
-  x=$(( x + 2 ))
+  x=$(( x + 1 ))
 done > "$out"
 
 awk '{sum=sum+$1} END {print "Sum: " sum}' "$out"
