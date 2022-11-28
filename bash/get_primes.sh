@@ -115,7 +115,7 @@ do
   x=$(( x + 1 ))
 done > "$out"
 
-awk '{sum=sum+$1} END {print "Sum: " sum}' "$out"
+awk 'BEGIN { sum = 0 } {sum += $1} END {print "Sum: " sum}' "$out"
 
 finish="$SECONDS"
 duration=$(( finish - start ))
