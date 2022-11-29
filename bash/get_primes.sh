@@ -1,13 +1,13 @@
 #!/bin/bash
 
+# bash settings:
+set -o errexit  # Fail on error
+set -o pipefail # Fail when any part of a pipeline fails
+set -o nounset  # Fail when an undefined variable is used
+#set -o xtrace  # Print commands before execution
+
 # Global variables:
 N=${1:-10}
-
-# bash settings:
-set errexit  # Fail on error
-set pipefail  # Fail when any part of a pipeline fails
-set nounset  # Fail when an undefined variable is used
-#set xtrace  # Print commands before execution
 
 
 function isqrt() {
