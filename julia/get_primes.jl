@@ -3,62 +3,60 @@ using ArgParse
 using Dates
 
 
-# Finds all primes between 1 and upper_limit (inclusive)
-function find_primes(target_count)
-    primes = Vector{BigInt}()
-    found = 0
-    n = 2  # 1 is not a prime number by definition 
-    while found < target_count
-        if is_prime(n)
-            push!(primes, n)
-            found = found + 1
-        end
-        
-        n = n + 1
-    end
+# integer sqrt
+function isqrt(n)
+  result = 0
 
-    return primes
+  for i = 1:n
+    if i * i >= n
+      result = i
+      break
+    end
+  end
+
+  if result * result > n
+    result -= 1
+  end
+
+  return result
 end
 
 
-# Tests if a number is even:
-function is_even(n)
-    result = false
-    remainder = n % 2
-    if remainder == 0
-        result = true
-    end
+# Tests if a number is odd:
+function is_odd(n)
+  result = false
+  if n % 2 > 0
+    result = true
+  end
 
-    return result
+  return result
 end
-    
+
 
 # Tests if a number is prime:
 function is_prime(n)
     result = false
-    limit = trunc(Int, sqrt(n))
+    remainder = 0
 
     if n == 2 || n == 3
-        result = true
-    elseif is_even(n)
-        result = false
+      remainder = 1
     else
-        # Starting with 2, increment the denominator:
-        denominator = 2
-        while denominator <= limit
-            remainder = n % denominator
-            if remainder == 0
-                # No remainder, so not a prime.
-                break
-            else
-                denominator = denominator + 1
-            end
+      if is_odd(n)
+        limit = isqrt(n)
+        
+        for denom = 2:limit
+          remainder = n % denom
+          if remainder == 0
+            break
+          end
         end
+        
+      end
+    
+    end
 
-        # At this point, if denominator > limit, then n is a prime.
-        if denominator > limit
-            result = true
-        end
+    if remainder != 0
+      result = true
     end
 
     return result
@@ -70,16 +68,24 @@ function main()
     started = now()
     parsed_args = parse_commandline()
     target_count = parsed_args["count"]
-    primes = find_primes(target_count)
+    
+    count = 0
     sum::BigInt = 0
-    for p in primes
-        sum = sum + p
+    n = 2
+    
+    while count < target_count
+      if is_prime(n)
+        # println("$n is prime")
+        sum += n
+        count += 1
+      end
+      n += 1
     end
+    
     completed = now()
     duration = completed - started
     println("Duration: $duration")
     println("The sum of the first $target_count primes is $sum.")
-    # println("Primes: $primes")
 end
 
 
@@ -96,5 +102,29 @@ function parse_commandline()
 
     return parse_args(s)
 end
+
+
+function test_isqrt()
+  for n = 1:17
+    result = isqrt(n)
+    println("isqrt($n) is $result")
+  end
+end  
+
+
+function test_is_odd()
+  for n = 1:17
+    result = is_odd(n)
+    println("$n is odd: $result")
+  end
+end  
+
+
+function test_is_prime()
+  for n = 1:17
+    result = is_prime(n)
+    println("$n is prime: $result")
+  end
+end  
 
 main()
