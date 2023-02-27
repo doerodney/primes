@@ -101,6 +101,7 @@ fi
 
 x=1
 count=0
+sum=0
 
 echo "Getting first $N prime numbers."
 start="$SECONDS"
@@ -110,13 +111,15 @@ do
   if test "$(is_prime "$x")" -ne 0
   then
     count=$(( count + 1 ))
-    echo "$x"
+    # echo "$x"
+    sum=$((sum + x))
   fi
   x=$(( x + 1 ))
-done > "$out"
+done
 
-awk 'BEGIN { sum = 0 } {sum += $1} END {print "Sum: " sum}' "$out"
+# awk 'BEGIN { sum = 0 } {sum += $1} END {print "Sum: " sum}' "$out"
 
 finish="$SECONDS"
+echo "Sum = $sum of first $N prime numbers."
 duration=$(( finish - start ))
 echo "Duration: $duration [seconds] (in bash)"
